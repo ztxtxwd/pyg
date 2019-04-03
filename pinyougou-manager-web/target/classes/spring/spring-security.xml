@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+		<!-- 直接放行静态资源 -->
+		<http pattern="/*.html" security="none"></http>
+		<http pattern="/css/**" security="none"></http>
+		<http pattern="/img/**" security="none"></http>
+		<http pattern="/js/**" security="none"></http>
+		<http pattern="/plugins/**" security="none"></http>
+		
+		<http use-expressions="false">
+			<intercept-url pattern="/**" access="ROLE_ADMIN"/>
+			<form-login 
+				login-page="/login.html"
+				default-target-url="/admin/index.html"
+				authentication-failure-url="/login.html"
+				always-use-default-target="true"
+			/>
+			
+			<!-- 禁用csrf -->
+			<csrf disabled="true"/>
+			
+			<!-- 允许使用html的框架iframe -->
+			<headers>
+				<frame-options policy="SAMEORIGIN"/>
+			</headers>
+			
+			<!-- 
+				支持退出
+				invalidate-session="true" 清空session，默认true
+				logout-url="/logout" :退出的url,默认/logout
+				logout-success-url="" 退出成功后跳转的地址
+			 -->
+			<logout/>
+		</http>
+		
+		<!-- 配置认证管理器 -->
+		<authentication-manager>
+			<authentication-provider>
+				<user-service>
+					<!-- 配置用户名 密码及角色 -->
+					<user name="admin" password="admin" authorities="ROLE_ADMIN"/>
+				</user-service>
+			</authentication-provider>
+		</authentication-manager>
+</beans:beans>

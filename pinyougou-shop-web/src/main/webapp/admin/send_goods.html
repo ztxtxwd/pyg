@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>管理</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    
+   	<!-- 引入angular -->
+	<script src="../plugins/angularjs/angular.min.js"></script>
+	<!-- 分页组件开始要注意在angular后面引入 -->
+	<script src="../plugins/angularjs/pagination.js"></script>
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+	<!-- 分页组件结束 -->
+	<!-- 引入品牌Js 千万要注意引入是有顺序的 先引入base 再引入service 最后引入controller -->	
+	<script src="../js/base_pagination.js"></script>
+	<script src="../js/service/orderService.js"></script>
+	<!-- baseController一定要在controller之前引入 -->
+	<script src="../js/controller/baseController.js"></script>		
+	<script src="../js/controller/orderController.js"></script>	
+    
+    
+</head>
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="orderController" >
+  <!-- .box-body -->
+                    <div class="box-header with-border">
+                        <h3 class="box-title">待发货订单</h3>
+                    </div>
+
+                    <div class="box-body">
+
+                        <!-- 数据表格 -->
+                        <div class="table-box">
+                            <!--工具栏/-->
+
+			                  <!--数据列表-->
+			                  <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+			                      <thead>
+			                          <tr>
+			                              <th class="" style="padding-right:0px">
+			                                  <input id="selall" type="checkbox" class="icheckbox_square-blue">
+			                              </th> 
+			                             <th class="sorting">订单号</th>			
+			                             <th class="sorting">实付金额</th>			
+			                             <th class="sorting">下单人名称</th>			
+			                             <th class="sorting">收货人姓名</th>			
+			                             <th class="sorting">收货人地址</th>			
+			                             <th class="sorting">收货人手机</th>			
+			                             <th class="sorting">下单时间</th>			
+										<th class="text-center">操作</th>
+			                          </tr>
+			                      </thead>
+			                      <tbody>
+			                          <tr ng-repeat="pojo in list">
+			                              <td><input  type="checkbox"></td>			                              
+				                          <td>{{pojo.orderIdString}}</td>			
+			                             <td>{{pojo.payment.toFixed(2)}}</td>			
+			                             <td>{{pojo.userId}}</td>			
+			                             <td>{{pojo.receiver}}</td>			
+			                             <td>{{pojo.receiverAreaName}}</td>			
+			                             <td>{{pojo.receiverMobile}}</td>			
+		                                 <td>{{pojo.createTime.split(" ")[0]}}</td>	
+		                                  <td class="text-center">                                           
+		                                 	  <button type="button" class="btn bg-olive btn-xs" ng-click="updateStatus('4',pojo.orderIdString)">确认发货</button>                                           
+		                                  </td>
+			                          </tr>	
+			                          
+			                          								 
+			                      </tbody>
+			                  </table>
+			                  <!--数据列表/-->                        
+                        </div>
+                        <!-- 数据表格 /-->
+                        <!-- 分页 -->
+						<tm-pagination conf="paginationConf"></tm-pagination>
+                     </div>
+                    <!-- /.box-body -->
+   
+</body>
+</html>
